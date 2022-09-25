@@ -3,7 +3,12 @@ from torch import nn, optim
 from torchvision import models
 from collections import OrderedDict
 def prepareModel(arch,hidden_unit):
-    model = getattr(models,arch)(pretrained = True)
+    if arch == 'VGG':
+        model = models.vgg16(pretrained=True)
+    elif arch == 'Densenet':
+        model = models.densenet121(pretrained=True)
+    else:
+        model = getattr(models,arch)(pretrained = True)
     for param in model.parameters():
         param.requires_grad = False
     classifier = nn.Sequential(OrderedDict([
